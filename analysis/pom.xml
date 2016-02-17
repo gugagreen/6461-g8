@@ -13,6 +13,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- dependencies -->
+		<entities.version>0.0.1-SNAPSHOT</entities.version>
 		<junit.version>4.12</junit.version>
 		<!-- plugins -->
 		<maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
@@ -20,13 +21,18 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>ca.concordia.soen6461</groupId>
+			<artifactId>entities</artifactId>
+			<version>${entities.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
