@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<google>
+    <Item id="1">
+        <score>4.5</score>
+        <title>Instagram – Android Apps on Google Play</title>
+        <datePublished>12 February 2016</datePublished>
+        <numDownloads>500,000,000 - 1,000,000,000</numDownloads>
+        <contentRating>Teen</contentRating>
+    </Item>
+    <Item id="2">
+        <score>4.3</score>
+        <title>Google Drive – Android Apps on Google Play</title>
+        <datePublished>1 February 2016</datePublished>
+        <numDownloads>1,000,000,000 - 5,000,000,000</numDownloads>
+        <contentRating>Everyone</contentRating>
+    </Item>
+    <Item id="3">
+        <score>4.5</score>
+        <title>AirDroid - Android on Computer – Android Apps on Google Play</title>
+        <datePublished>29 January 2016</datePublished>
+        <numDownloads>10,000,000 - 50,000,000</numDownloads>
+        <contentRating>Everyone</contentRating>
+    </Item>
+    <Item id="4">
+        <score>4.1</score>
+        <title>Google Play Games – Android Apps on Google Play</title>
+        <datePublished>11 February 2016</datePublished>
+        <numDownloads>1,000,000,000 - 5,000,000,000</numDownloads>
+        <contentRating>Teen</contentRating>
+    </Item>
+</google>
