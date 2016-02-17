@@ -1,215 +1,164 @@
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Calendar;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
+import org.jsoup.helper.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.w3c.dom.Attr;
 
+import ca.concordia.soen6461.entities.entity.GoogleApp;
+import ca.concordia.soen6461.entities.entity.GoogleAppList;
+import ca.concordia.soen6461.entities.entity.JaxbCalendarAdapter;
+import ca.concordia.soen6461.entities.service.MarshallerService;
+import ca.concordia.soen6461.entities.service.impl.JaxbMarshallerService;
 
 public class ExtractData {
-	
-	private static int SCORE_BOX = 0;
-	private static int PUBLISH_DATE_BOX = 0;
-	private static int TITLE_BOX = 0;
-	private static int NU_DOWNLOAD_BOX = 0;
-	private static int AGE_RANGE_BOX = 0;
 
+	private static final String DIV_CONTENT = "div.content";
+	private static final String TITLE = "title";
+	private static final String DIV_SCORE = "div.score";
+	private static final String NUM_DOWNLOADS = "[itemprop=numDownloads]";
+	private static final String DATE_PUBLISHED = "[itemprop=datePublished]";
+	private static final String AGE_RANGE = "[itemprop=ageRange]";
+	private static final String CONTENT_RATING = "[itemprop=contentRating]";
 	
-	public String readPages(String address, int sCORE_BOX, int pUBLISH_DATE_BOX, int tITLE_BOX
-			, int nU_DOWNLOAD_BOX, int aGE_RANGE_BOX) throws Exception
-	{
-		SCORE_BOX = sCORE_BOX;
-		PUBLISH_DATE_BOX = pUBLISH_DATE_BOX;
-		TITLE_BOX = tITLE_BOX;
-		NU_DOWNLOAD_BOX = nU_DOWNLOAD_BOX;
-		AGE_RANGE_BOX = aGE_RANGE_BOX;
-		
-		String result =readFile(address);
-		
+	private MarshallerService<GoogleAppList> marshaller = new JaxbMarshallerService<>();
+
+	public String readPages(String address, int sCORE_BOX, int pUBLISH_DATE_BOX, int tITLE_BOX, int nU_DOWNLOAD_BOX,
+			int aGE_RANGE_BOX) throws Exception {
+
+		String result = readFile(address);
+
 		return result;
 	}
-	
-	
-	public String readFile(String address) throws Exception
-	{
+
+	public String readFile(String address) throws Exception {
 		String result = "";
-		
+
 		BufferedReader br = null;
 
-		try
-		{
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-			// root elements
-			org.w3c.dom.Document docxml = docBuilder.newDocument();
-			org.w3c.dom.Element rootElement = docxml.createElement("google");
-			docxml.appendChild(rootElement);
-
+		try {
 			String sCurrentLine;
 
 			br = new BufferedReader(new FileReader(address));
 
-			int count = 0;
-			while ((sCurrentLine = br.readLine()) != null)
-			{
-				// item elements
-				org.w3c.dom.Element item = docxml.createElement("Item");
-				rootElement.appendChild(item);
-
-				// set attribute to staff element
-				Attr attr = docxml.createAttribute("id");
-				attr.setValue(count+1+"");
-				item.setAttributeNode(attr);
-				
-				readPageData(sCurrentLine,docxml,item);
-				System.out.println(sCurrentLine);
-				count ++;
-				
-				if (count > 19 ) break;
+			GoogleAppList appList = new GoogleAppList();
+			appList.setApps(new ArrayList<GoogleApp>());
+			while ((sCurrentLine = br.readLine()) != null) {
+				GoogleApp app = readPageData(sCurrentLine);
+				if (app != null) {
+					appList.getApps().add(app);
+				}
 			}
+
+			result = "Number of Items::" + appList.getApps().size();
+			// FIXME - get file path from properties
+			FileWriter writer = new FileWriter("D:\\file123.xml");
 			
-			result = "Number of Items::"+count;
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			DOMSource source = new DOMSource(docxml);
-			StreamResult resultxml = new StreamResult(new File("D:\\file123.xml"));
-
-			// Output to console for testing
-			// StreamResult result = new StreamResult(System.out);
-
-			transformer.transform(source, resultxml);
+			marshaller.marshall(appList, writer);
 
 			System.out.println("File saved!");
-			
 
-		} 
-		catch (IOException | ParserConfigurationException e) 
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 			result = "false";
-		} 
-		finally
-		{
-			try
-			{
+		} finally {
+			try {
 				if (br != null)
 					br.close();
-			} 
-			catch (IOException ex) 
-			{
+			} catch (IOException ex) {
 				ex.printStackTrace();
 				result = "false";
 			}
 		}
-		
+
 		return result;
-		
+
 	}
 
+	private GoogleApp readPageData(String url) {
+		GoogleApp app = null;
+		Document doc = getDocument(url);
 
-	private Map<String,String> readPageData(String url, org.w3c.dom.Document docxml
-			, org.w3c.dom.Element item2) {
-		
-		Document doc;
-		Map<String,String> list = new HashMap<String,String>();
-		try 
-		{
-			
-			URL obj = new URL(url);
-			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		String score = getDocContent(doc, DIV_SCORE);
+		String title = getDocContent(doc, TITLE);
 
-			// optional default is GET
-			con.setRequestMethod("GET");
-			
-			int responseCode = con.getResponseCode();
-			System.out.println("\nSending 'GET' request to URL : " + url);
-			System.out.println("Response Code : " + responseCode);
-			
-			doc = Jsoup.connect(url).timeout(5000).get();
-			
-			
-			System.out.println(url);
-			//System.out.println(doc);
-			String score = doc.select("div.score").first().text();
-			org.w3c.dom.Element scorexml = docxml.createElement("score");
-			scorexml.appendChild(docxml.createTextNode(doc.select("div.score").first().text()));
-			item2.appendChild(scorexml);
-			
-			String title = doc.select("title").first().text();
-			org.w3c.dom.Element titlexml = docxml.createElement("title");
-			titlexml.appendChild(docxml.createTextNode(title));
-			item2.appendChild(titlexml);
-			
-			
-				Elements items = doc.select("div.content");
-				
-				for ( Element item: items)
-				{
-				
-					if ( item.select("[itemprop=numDownloads]").text() != null 
-							&& !item.select("[itemprop=numDownloads]").text().equals(""))
-					{
-						String numDownloads =item.select("[itemprop=numDownloads]").text();
-						org.w3c.dom.Element numDownloadsxml = docxml.createElement("numDownloads");
-						numDownloadsxml.appendChild(docxml.createTextNode(numDownloads));
-						item2.appendChild(numDownloadsxml);
-						
-					}
-					
-					if ( item.select("[itempropdatePublished]").text() != null 
-							&& !item.select("[itemprop=datePublished]").text().equals(""))
-					{
-						String datePublished=item.select("[itemprop=datePublished]").text();
-						org.w3c.dom.Element datePublishedxml = docxml.createElement("datePublished");
-						datePublishedxml.appendChild(docxml.createTextNode(datePublished));
-						item2.appendChild(datePublishedxml);
-						
-					}
-					
-					if ( item.select("[itemprop=ageRange]").text() != null 
-							&& !item.select("[itemprop=ageRange]").text().equals(""))
-					{
-						String ageRange= item.select("[itemprop=ageRange]").text();
-						org.w3c.dom.Element ageRangexml = docxml.createElement("ageRange");
-						ageRangexml.appendChild(docxml.createTextNode(ageRange));
-						item2.appendChild(ageRangexml);
-						
-					}
-					
-					if ( item.select("[itemprop=contentRating]").text() != null 
-							&& !item.select("[itemprop=contentRating]").text().equals(""))
-					{
-						String contentRating= item.select("[itemprop=contentRating]").text();
-						org.w3c.dom.Element contentRatingxml = docxml.createElement("contentRating");
-						contentRatingxml.appendChild(docxml.createTextNode(contentRating));
-						item2.appendChild(contentRatingxml);
-						
-					}
-					
-				
+		if (score != null && title != null) {
+			app = new GoogleApp();
+
+			app.setScore(new BigDecimal(score));
+			app.setTitle(title);
+
+			Elements items = doc.select(DIV_CONTENT);
+
+			for (Element item : items) {
+				String numDownloads = getInnerContent(item, NUM_DOWNLOADS);
+				if (numDownloads != null) {
+					app.setNumDownloads(numDownloads);
 				}
+
+				String datePublished = getInnerContent(item, DATE_PUBLISHED);
+				if (datePublished != null) {
+					try {
+						Calendar cal = Calendar.getInstance();
+						cal.setTime(JaxbCalendarAdapter.DATE_FORMAT.parse(datePublished));
+						app.setDatePublished(cal);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				}
+
+				String ageRange = getInnerContent(item, AGE_RANGE);
+				if (ageRange != null) {
+					// app.set - FIXME - add age range to entity
+				}
+
+				String contentRating = getInnerContent(item, CONTENT_RATING);
+				if (contentRating != null) {
+					app.setContentRating(contentRating);
+				}
+
 			}
-		catch (IOException e) {
+		}
+		return app;
+
+	}
+
+	private Document getDocument(String url) {
+		Document doc = null;
+		try {
+			System.out.println("\nSending 'GET' request to URL : " + url); // FIXME - remove sysout
+			doc = Jsoup.connect(url).timeout(5000).get();
+		} catch (IOException e) {
+			// FIXME - tread exception properly
 			e.printStackTrace();
 		}
-		return list;
+		return doc;
+	}
+
+	private String getDocContent(Document doc, String cssQuery) {
+		String content = null;
+		Elements elements = doc.select(cssQuery);
+		if (elements != null && elements.first() != null && !StringUtil.isBlank(elements.first().text())) {
+			content = elements.first().text();
+		}
+
+		return content;
+	}
+
+	private String getInnerContent(Element item, String cssQuery) {
+		String content = null;
+		Elements elements = item.select(cssQuery);
+		if (elements != null && elements.text() != null && !StringUtil.isBlank(elements.text())) {
+			content = elements.text();
+		}
+		return content;
 	}
 }
