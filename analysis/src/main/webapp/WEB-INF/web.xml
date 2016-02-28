@@ -3,16 +3,26 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
-  <display-name>Analysis Application</display-name>
-  
-  <!-- <servlet>
-  	<servlet-name>CsvController</servlet-name>
-  	<servlet-class>ca.concordia.soen6461.scrapping.controller.CsvController</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-  	<servlet-name>CsvController</servlet-name>
-  	<url-pattern>/csv</url-pattern>
-  </servlet-mapping> -->
-  
+	<display-name>Analysis Application</display-name>
+
+	<servlet>
+		<servlet-name>FileController</servlet-name>
+		<servlet-class>ca.concordia.soen6461.analysis.controller.FileController</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>FileController</servlet-name>
+		<url-pattern>/files</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MainController</servlet-name>
+		<servlet-class>ca.concordia.soen6461.analysis.controller.MainController</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>MainController</servlet-name>
+		<url-pattern>/main</url-pattern>
+	</servlet-mapping>
+
 </web-app>
