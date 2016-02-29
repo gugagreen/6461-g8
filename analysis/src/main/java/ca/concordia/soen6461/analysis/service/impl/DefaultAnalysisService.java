@@ -1,5 +1,6 @@
 package ca.concordia.soen6461.analysis.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 import ca.concordia.soen6461.analysis.service.AnalysisService;
@@ -13,8 +14,15 @@ public class DefaultAnalysisService implements AnalysisService {
 	@Override
 	public AnalysisResult performAnalysis(final GoogleAppList apps, final Set<DataPoint> selectedPoints,
 			final Strategy strategy) {
-		// TODO Auto-generated method stub
-		return null;
+		return dummy(apps);
+	}
+	
+	// FIXME - create real analysis loader
+	private AnalysisResult dummy(final GoogleAppList apps) {
+		AnalysisResult result = new AnalysisResult();
+		result.setTitles(new String[] {"a", "b"});
+		result.setScores(new BigDecimal[] {new BigDecimal(3.2), new BigDecimal(4.4)});
+		return result;
 	}
 
 }

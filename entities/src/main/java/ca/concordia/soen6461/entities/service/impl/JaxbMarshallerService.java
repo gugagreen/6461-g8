@@ -21,7 +21,7 @@ public class JaxbMarshallerService<T> implements MarshallerService<T> {
             marshaller.marshal(object, writer);
         } catch (JAXBException e) {
             e.printStackTrace();
-            throw new InternalError("Error during game marshalling");
+            throw new InternalError("Error during marshalling");
         }
 		
 	}
@@ -35,7 +35,7 @@ public class JaxbMarshallerService<T> implements MarshallerService<T> {
             return object;
         } catch (JAXBException e) {
             e.printStackTrace();
-            throw new InternalError("Error during game unmarshalling");
+            throw new InternalError("Error during unmarshalling");
         }
 	}
 

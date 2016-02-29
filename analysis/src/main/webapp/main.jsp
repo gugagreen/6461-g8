@@ -1,20 +1,31 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
   <head>
+    <script type="text/javascript">
+	    var titles = new Array();
+	    var scores = new Array();
+	    <c:forEach var="app" items="${apps}">
+	    	titles.push("${app.title}");
+	    	scores.push("${app.score}");
+	    </c:forEach>
+    </script>
+    
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript" src="/js/googleChart.js"></script>
+    <!-- <script type="text/javascript" src="/js/googleChart.js"></script> -->
+    <script type="text/javascript" src='<c:url value="/js/bar_score.js" />'></script>
   </head>
 
   <body>
     <!--Div that will hold the pie chart-->
-    <div id="chart_div"></div>
-    <p/>
-    <form action="/main" method="post">
+    <form action="/main" method="post"> 
 	    <div id="main_div">
 	    	<table style="width: 600px; height: 400px;">
 	    		<tr>
 	    			<td style="width: 70%; height: 100%;">
-	    				<div id="diagram" style="border: thin solid black; height: 100%;"></div>
+	    				<!-- <div id="diagram" style="border: thin solid black;"></div> -->
+	    				<div id="mouseoverdiv" style="border: thin solid black;"></div>
 	    			</td>
 	    			<td style="width: 30%; height: 100%;">
 	    				<table style="height: 100%;">
@@ -27,7 +38,6 @@
 	    						<td>
 		    						<div id="data_selection" style="border: thin solid black; height: 100%;">
 		    							<input type="checkbox" name="dataPoint" value="score">Score<br>
-				    					<input type="checkbox" name="dataPoint" value="title">Title<br>
 				    					<input type="checkbox" name="dataPoint" value="datePublished">Date Published<br>
 				    					<input type="checkbox" name="dataPoint" value="numDownloads">Number of Downloads<br>
 				    					<input type="checkbox" name="dataPoint" value="contentRating">Content Rating<br>
