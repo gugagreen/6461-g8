@@ -23,7 +23,7 @@
 						</tr>
 					</c:forEach>
 				</table>
-				<input type="submit" name="main" />
+				<input type="submit" name="main" value="Main" />
 			</form>
 	</body>
 </html>

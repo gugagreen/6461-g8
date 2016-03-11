@@ -56,5 +56,9 @@
     </form>
     
     <input type="button" onclick="location.href='/scrapped';" value="View Scrapped Data" />
+    <div>
+	    <input type="button" onclick="location.href='/average';" value="Calculate Average" />
+	    <p>0.0</p><!-- FIXME - add average results -->
+    </div>
   </body>
 </html>
