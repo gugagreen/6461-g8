@@ -24,7 +24,6 @@
 	    	<table style="width: 600px; height: 400px;">
 	    		<tr>
 	    			<td style="width: 70%; height: 100%;">
-	    				<!-- <div id="diagram" style="border: thin solid black;"></div> -->
 	    				<div id="mouseoverdiv" style="border: thin solid black;"></div>
 	    			</td>
 	    			<td style="width: 30%; height: 100%;">
@@ -37,10 +36,9 @@
 	    					<tr style="height: 80%;">
 	    						<td>
 		    						<div id="data_selection" style="border: thin solid black; height: 100%;">
-		    							<input type="checkbox" name="dataPoint" value="score">Score<br>
-				    					<input type="checkbox" name="dataPoint" value="datePublished">Date Published<br>
-				    					<input type="checkbox" name="dataPoint" value="numDownloads">Number of Downloads<br>
-				    					<input type="checkbox" name="dataPoint" value="contentRating">Content Rating<br>
+		    							<input type="radio" name="dataPoint" value="sizeRanking">Size vs. Ranking<br>
+				    					<input type="radio" name="dataPoint" value="dateDownloads">Date vs. Downloads<br>
+				    					<input type="radio" name="dataPoint" value="downloadsRanking">Downloads vs. ranking<br>
 				    				</div>
 			    				</td>
 	    					</tr>
@@ -56,5 +54,7 @@
 	    	</table>
 	    </div>
     </form>
+    
+    <input type="button" onclick="location.href='/scrapped';" value="View Scrapped Data" />
   </body>
 </html>

@@ -1,7 +1,6 @@
 package ca.concordia.soen6461.analysis.controller;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,21 +32,17 @@ public class MainController extends HttpServlet {
 
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String filePath = "/" + (String) request.getSession().getAttribute("fileName"); // FIXME - add to constant
-		System.out.println(">> session file = " + filePath);
-
-		String[] selectedPoints = request.getParameterValues("dataPoint"); // FIXME - add to constant
-		System.out.println(">> selectedPoints: " + Arrays.toString(selectedPoints));
-
+		String selectedPoint = request.getParameter("dataPoint"); // FIXME - add to constant
+		
 		Strategy strategy = Strategy.GRAPH; // FIXME - read from params
 
-		GoogleAppList apps = fileService.loadApps(filePath);
-		if (apps != null) {
-			AnalysisResult result = analysisService.performAnalysis(apps, DataPoint.toDataPoints(selectedPoints), strategy);
+		GoogleAppList appList = fileService.loadApps(ViewScrappedDataController.PATH); // FIXME - get path from props
+		if (appList != null) {
+			AnalysisResult result = analysisService.performAnalysis(appList, DataPoint.getByValue(selectedPoint), strategy);
 			request.setAttribute("result", result);
 			
 			// FIXME - dummy test
-			request.setAttribute("apps", apps.getApps());
+			request.setAttribute("apps", appList.getApps());
 
 			RequestDispatcher rd = request.getRequestDispatcher("main.jsp");
 			rd.forward(request, response);

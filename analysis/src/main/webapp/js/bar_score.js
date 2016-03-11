@@ -15,6 +15,7 @@ function drawMouseoverVisualization() {
 		data.addColumn('string', 'Score');
 		
 		for (var i = 0; i < titles.length; i++) {
+			// TODO - adjust title better
 			data.addRow([titles[i].substring(0, 10), scores[i]]);
 		}
 		

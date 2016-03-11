@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<script type="text/javascript">
+			var counter = 0;
+		
+			function start() {
+				var eventSource = new EventSource("/testServerEvent");
+				eventSource.onmessage = function(event) {
+					document.getElementById('foo').innerHTML = event.data;
+					if (counter > 7) {
+						// close server-event
+						event.target.close();
+					}
+					counter++;
+				};
+	
+			}
+		</script>
+	</head>
+
+	<body>
+		<b>FIXME - delete later. Just a page to test server-events.</b>
+		Time:
+		<span id="foo"></span>
+	
+		<br>
+		<br>
+		<button onclick="start()">Start</button>
+		
+	</body>
+</html>

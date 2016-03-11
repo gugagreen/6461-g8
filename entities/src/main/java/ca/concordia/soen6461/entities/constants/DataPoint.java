@@ -1,24 +1,25 @@
 package ca.concordia.soen6461.entities.constants;
 
-import java.util.Set;
-import java.util.TreeSet;
-
 public enum DataPoint {
 
-	SCORE, TITLE, DATE_PUBLISHED, NUM_DOWNLOADS, CONTENT_RATING;
+	SIZE_RANKING("sizeRanking"), DATE_DOWNLOADS("dateDownloads"), DOWNLOADS_RANKING("downloadsRanking");
 
-	public static Set<DataPoint> toDataPoints(String[] pointsString) {
-		Set<DataPoint> dataPoints = new TreeSet<DataPoint>();
-		for (String point : pointsString) {
-			if (point != null) {
-				for (DataPoint dp : DataPoint.values()) {
-					if (point.equals(dp.name())) {
-						dataPoints.add(dp);
-					}
+	private String value;
+
+	private DataPoint(String value) {
+		this.value = value;
+	}
+
+	public static DataPoint getByValue(String value) {
+		DataPoint point = null;
+		if (value != null) {
+			for (DataPoint dp : DataPoint.values()) {
+				if (value.equals(dp.value)) {
+					point = dp;
+					break;
 				}
 			}
 		}
-		
-		return dataPoints;
+		return point;
 	}
 }

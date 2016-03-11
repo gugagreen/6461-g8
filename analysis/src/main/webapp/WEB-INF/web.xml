@@ -6,14 +6,13 @@
 	<display-name>Analysis Application</display-name>
 
 	<servlet>
-		<servlet-name>FileController</servlet-name>
-		<servlet-class>ca.concordia.soen6461.analysis.controller.FileController</servlet-class>
+		<servlet-name>ViewScrappedDataController</servlet-name>
+		<servlet-class>ca.concordia.soen6461.analysis.controller.ViewScrappedDataController</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>FileController</servlet-name>
-		<url-pattern>/files</url-pattern>
-		<url-pattern></url-pattern>
+		<servlet-name>ViewScrappedDataController</servlet-name>
+		<url-pattern>/scrapped</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -24,6 +23,18 @@
 	<servlet-mapping>
 		<servlet-name>MainController</servlet-name>
 		<url-pattern>/main</url-pattern>
+		<url-pattern></url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>TestServerEventController</servlet-name>
+		<servlet-class>ca.concordia.soen6461.analysis.controller.TestServerEventController</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>TestServerEventController</servlet-name>
+		<url-pattern>/testServerEvent</url-pattern>
+	</servlet-mapping>
+	
 
 </web-app>
