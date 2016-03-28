@@ -4,10 +4,10 @@
   <head>
     <script type="text/javascript">
 	    var titles = new Array();
-	    var scores = new Array();
-	    <c:forEach var="app" items="${apps}">
-	    	titles.push("${app.title}");
-	    	scores.push("${app.score}");
+	    var results = new Array();
+	    <c:forEach var="title" items="${result.titles}" varStatus="loop">
+	    	titles.push("${result.titles[loop.index]}");
+	    	results.push("${result.results[loop.index]}");
 	    </c:forEach>
     </script>
     

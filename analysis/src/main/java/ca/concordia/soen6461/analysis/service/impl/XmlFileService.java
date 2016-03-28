@@ -11,9 +11,25 @@ import ca.concordia.soen6461.entities.service.MarshallerService;
 import ca.concordia.soen6461.entities.service.impl.JaxbMarshallerService;
 
 public class XmlFileService implements FileService {
-	private String SUFFIX = ".xml";
+	private String SUFFIX = ".xml"; // TODO - add to properties
 	
-	private MarshallerService<GoogleAppList> marshallerService = new JaxbMarshallerService<>(); // FIXME - use singleton
+	private MarshallerService<GoogleAppList> marshallerService = new JaxbMarshallerService<GoogleAppList>();
+	
+	/**
+	 * private constructor to enforce singleton
+	 */
+	private XmlFileService() {}
+	
+	/**
+	 * Singleton Holder to enforce load on first call of getInstance() in a thread-safe way, without need of manual synchronization. 
+	 */
+	private static class SingletonHolder {
+        private static final XmlFileService INSTANCE = new XmlFileService();
+	}
+	
+	public static XmlFileService getInstance() {
+        return SingletonHolder.INSTANCE;
+	}
 	
 	public File[] listFilesInFolder(final String folder) {
 		File dir = new File(folder);

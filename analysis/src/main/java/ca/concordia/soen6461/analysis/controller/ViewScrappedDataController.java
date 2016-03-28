@@ -8,19 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ca.concordia.soen6461.analysis.service.FileService;
-import ca.concordia.soen6461.analysis.service.impl.XmlFileService;
+import ca.concordia.soen6461.analysis.service.impl.DefaultAnalysisService;
 import ca.concordia.soen6461.entities.entity.GoogleAppList;
 
 public class ViewScrappedDataController extends HttpServlet {
 
 	private static final long serialVersionUID = -3463645976689877242L;
-	private FileService service = new XmlFileService(); // FIXME - call singleton
-	
-	public static final String PATH = "/scrapResults/jaxbGoogleAppTest.xml"; // FIXME - should not be hardcoded
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		GoogleAppList appList = service.loadApps(PATH);
+		GoogleAppList appList = DefaultAnalysisService.getInstance().viewScrappedData();
 		if (appList != null) {
 			request.setAttribute("apps", appList.getApps());
 		}

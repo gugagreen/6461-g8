@@ -16,7 +16,7 @@ function drawMouseoverVisualization() {
 		
 		for (var i = 0; i < titles.length; i++) {
 			// TODO - adjust title better
-			data.addRow([titles[i].substring(0, 10), scores[i]]);
+			data.addRow([titles[i].substring(0, 10), results[i]]);
 		}
 		
 		// Set chart options
