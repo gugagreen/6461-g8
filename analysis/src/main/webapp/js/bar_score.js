@@ -9,19 +9,18 @@ google.charts.setOnLoadCallback(drawMouseoverVisualization);
 
 function drawMouseoverVisualization() {
 	var div = document.getElementById('mouseoverdiv');
-	if (typeof titles !== 'undefined' && titles.length > 0) {
+	if (typeof columns !== 'undefined' && columns.length > 0) {
 		var data = new google.visualization.DataTable();
 		data.addColumn('string', 'Apps by score');
 		data.addColumn('string', 'Score');
-		
-		for (var i = 0; i < titles.length; i++) {
+		for (var i = 0; i < columns.length; i++) {
 			// TODO - adjust title better
-			data.addRow([titles[i].substring(0, 10), results[i]]);
+			data.addRow([columns[i].substring(0, 10), values[i]]);
 		}
 		
 		// Set chart options
 		var options = {
-			'title' : 'Testing',
+			'title' : title,
 			'width' : 400,
 			'height' : 300
 		};

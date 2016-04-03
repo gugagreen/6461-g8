@@ -36,5 +36,15 @@
 		<url-pattern>/testServerEvent</url-pattern>
 	</servlet-mapping>
 	
+	
+	<servlet>
+		<servlet-name>TestXmlController</servlet-name>
+		<servlet-class>ca.concordia.soen6461.analysis.controller.TestXmlController</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>TestXmlController</servlet-name>
+		<url-pattern>/testXml</url-pattern>
+	</servlet-mapping>
 
 </web-app>

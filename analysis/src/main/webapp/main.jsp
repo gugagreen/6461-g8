@@ -3,17 +3,16 @@
 <html>
   <head>
     <script type="text/javascript">
-	    var titles = new Array();
-	    var results = new Array();
-	    <c:forEach var="title" items="${result.titles}" varStatus="loop">
-	    	titles.push("${result.titles[loop.index]}");
-	    	results.push("${result.results[loop.index]}");
+	    var columns = new Array();
+	    var values = new Array();
+	    var title = "${displayData.title}";
+	    <c:forEach var="column" items="${displayData.columns}" varStatus="loop">
+	    	columns.push("${displayData.columns[loop.index]}");
+	    	values.push("${displayData.values[loop.index]}");
 	    </c:forEach>
     </script>
     
-    <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <!-- <script type="text/javascript" src="/js/googleChart.js"></script> -->
     <script type="text/javascript" src='<c:url value="/js/bar_score.js" />'></script>
   </head>
 
@@ -25,6 +24,9 @@
 	    		<tr>
 	    			<td style="width: 70%; height: 100%;">
 	    				<div id="mouseoverdiv" style="border: thin solid black;"></div>
+	    				<!-- <div id="chartDiv">
+	    					<object type="text/html" data="chart.html"></object>
+	    				</div> -->
 	    			</td>
 	    			<td style="width: 30%; height: 100%;">
 	    				<table style="height: 100%;">
@@ -44,8 +46,8 @@
 	    					</tr>
 	    					<tr style="height: 10%;">
 	    						<td>
-	    							<button type="submit">Graph</button>
-	    							<button type="submit">Table</button>
+	    							<button type="submit" name="display" value="graph">Graph</button>
+	    							<button type="submit" name="display" value="table">Table</button>
 	    						</td>
 	    					</tr>
 	    				</table>
