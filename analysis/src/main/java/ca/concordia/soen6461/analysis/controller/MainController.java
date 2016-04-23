@@ -24,10 +24,12 @@ import ca.concordia.soen6461.entities.entity.GoogleAppList;
 public class MainController extends HttpServlet {
 
 	private static final long serialVersionUID = -4509056376668337832L;
+	
+	public static final String PATH_MAIN = "main.jsp";
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("main.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(PATH_MAIN);
 		rd.forward(request, response);
 	}
 
@@ -41,22 +43,25 @@ public class MainController extends HttpServlet {
 			
 			if (result != null) {
 				String selectedDisplay = request.getParameter("display");
-				System.out.println("selectedDisplay: " + selectedDisplay); // TODO - delete sysout
 				DisplayService displayService = Display.getServiceByValue(selectedDisplay);
 				DisplayData displayData = displayService.buildDisplay(result);
 				
 				request.setAttribute("displayData", displayData);
 	
-				RequestDispatcher rd = request.getRequestDispatcher("main.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher(PATH_MAIN);
 				rd.forward(request, response);
 			} else {
-				System.out.println("error: no analysis result");
-				// FIXME - send to error page
+				handleError(request, response, "no analysis result");
 			}
 		} else {
-			System.out.println("error: no apps");
-			// FIXME - send to error page
+			handleError(request, response, "no apps");
 		}
+	}
+	
+	private void handleError(final HttpServletRequest request, final HttpServletResponse response, final String errorMessage)  throws ServletException, IOException{
+		request.setAttribute("errorMessage", errorMessage);
+		RequestDispatcher rd = request.getRequestDispatcher("error.jsp");
+		rd.forward(request, response);
 	}
 
 }
