@@ -3,7 +3,6 @@ package ca.concordia.soen6461.analysis.service.impl;
 import ca.concordia.soen6461.analysis.service.AnalysisService;
 import ca.concordia.soen6461.analysis.strategies.AnalysisStrategy;
 import ca.concordia.soen6461.analysis.strategies.StrategyPool;
-import ca.concordia.soen6461.analysis.strategies.impl.SizeRankingStrategy;
 import ca.concordia.soen6461.analysis.util.Key;
 import ca.concordia.soen6461.analysis.util.PropsMng;
 import ca.concordia.soen6461.entities.constants.DataPoint;

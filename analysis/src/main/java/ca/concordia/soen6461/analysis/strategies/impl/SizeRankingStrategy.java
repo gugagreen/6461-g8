@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import ca.concordia.soen6461.analysis.strategies.AnalysisStrategy;
-import ca.concordia.soen6461.entities.constants.DataPoint;
 import ca.concordia.soen6461.entities.entity.AnalysisResult;
 import ca.concordia.soen6461.entities.entity.GoogleApp;
 import ca.concordia.soen6461.entities.entity.GoogleAppList;
