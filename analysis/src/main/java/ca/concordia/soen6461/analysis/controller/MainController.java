@@ -12,8 +12,6 @@ import ca.concordia.soen6461.analysis.entities.Display;
 import ca.concordia.soen6461.analysis.entities.DisplayData;
 import ca.concordia.soen6461.analysis.service.DisplayService;
 import ca.concordia.soen6461.analysis.service.impl.DefaultAnalysisService;
-import ca.concordia.soen6461.analysis.service.impl.GraphDisplayService;
-import ca.concordia.soen6461.analysis.service.impl.TableDisplayService;
 import ca.concordia.soen6461.analysis.service.impl.XmlFileService;
 import ca.concordia.soen6461.analysis.util.Key;
 import ca.concordia.soen6461.analysis.util.PropsMng;
